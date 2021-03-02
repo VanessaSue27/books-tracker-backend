@@ -67,10 +67,18 @@ app.get('/', (req, res) => {
 app.post('/books', parser.single('image'), async (req, res) => {
   try {
     const newBook = await new Book({ name: req.body.name, author: req.body.author, imageUrl: req.file.path }).save();
-    // Maybe not send whole newBook object back? Instead a success message
-    res.status(200).json(newBook);
+    res.status(200).json({ message: 'Book saved successfully' });
   } catch (err) {
     res.status(400).json({ message: 'Could not save New Book to the database', error });
+  }
+});
+
+app.get('/books', async (req, res) => {
+  try {
+    const allBooks = await Book.find();
+    res.status(200).json(allBooks);
+  } catch (err) {
+    res.status(400).json({ message: 'Could not find any Books', error });
   }
 });
 
