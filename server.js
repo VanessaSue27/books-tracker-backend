@@ -25,6 +25,10 @@ const Book = mongoose.model('Book', {
   imageUrl: {
     type: String,
     required: true
+  },
+  dateRead: {
+    type: String,
+    required: true
   }
 });
 
@@ -66,7 +70,7 @@ app.get('/', (req, res) => {
 // In the Frontend, we should send in the body: name, author and attached image file
 app.post('/books', parser.single('image'), async (req, res) => {
   try {
-    const newBook = await new Book({ name: req.body.name, author: req.body.author, imageUrl: req.file.path }).save();
+    const newBook = await new Book({ name: req.body.name, author: req.body.author, imageUrl: req.file.path, dateRead: req.body.dateRead }).save();
     res.status(200).json({ message: 'Book saved successfully' });
   } catch (err) {
     res.status(400).json({ message: 'Could not save New Book to the database', error });
