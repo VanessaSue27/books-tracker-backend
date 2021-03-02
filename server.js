@@ -27,7 +27,7 @@ const Book = mongoose.model('Book', {
     required: true
   },
   dateRead: {
-    type: String,
+    type: Date,
     required: true
   }
 });
