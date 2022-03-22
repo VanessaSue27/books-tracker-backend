@@ -79,6 +79,7 @@ app.post('/books', parser.single('image'), async (req, res) => {
 
 app.get('/books', async (req, res) => {
   try {
+    // Next step here is to sort the books per year, so send the books back to the Fronted already separated by year
     const allBooks = await Book.find();
     res.status(200).json(allBooks);
   } catch (err) {
