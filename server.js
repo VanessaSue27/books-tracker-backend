@@ -63,7 +63,7 @@ app.use(bodyParser.json());
 
 // Start defining your routes here
 app.get('/', (req, res) => {
-  res.send('Vanessas app to track which books I have read so far...');
+  res.send('Vanessas app to track which books I have read since 2021');
 });
 
 // Endpoint to create a new Book instance: Including book name, author and image
@@ -83,6 +83,21 @@ app.get('/books', async (req, res) => {
     res.status(200).json(allBooks);
   } catch (err) {
     res.status(400).json({ message: 'Could not find any Books', error });
+  }
+});
+
+app.get('/sortedBooks', async (req, res) => {
+  try {
+    const allBooks = await Book.find();
+    const books2021 = allBooks.filter(book => book.dateRead.getFullYear() === 2021);
+    const books2022 = allBooks.filter(book => book.dateRead.getFullYear() === 2022);
+    const sortedBooks = {
+      year2021: books2021,
+      year2022: books2022
+    };
+    res.status(200).json(sortedBooks);
+  } catch (err) {
+    res.status(400).json({ message: 'Could not find sorted Books', error });
   }
 });
 
