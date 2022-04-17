@@ -63,18 +63,7 @@ app.use(bodyParser.json());
 
 // Start defining your routes here
 app.get('/', (req, res) => {
-  res.send('Vanessas app to track which books I have read since 2021');
-});
-
-// Endpoint to create a new Book instance: Including book name, author and image
-// In the Frontend, we should send in the body: name, author and attached image file
-app.post('/books', parser.single('image'), async (req, res) => {
-  try {
-    const newBook = await new Book({ name: req.body.name, author: req.body.author, imageUrl: req.file.path, dateRead: req.body.dateRead }).save();
-    res.status(200).json({ message: 'Book saved successfully' });
-  } catch (err) {
-    res.status(400).json({ message: 'Could not save New Book to the database', error });
-  }
+  res.send('App to track which books I have read since 2021 - Vanessa');
 });
 
 app.get('/books', async (req, res) => {
@@ -97,7 +86,18 @@ app.get('/sortedBooks', async (req, res) => {
     };
     res.status(200).json(sortedBooks);
   } catch (err) {
-    res.status(400).json({ message: 'Could not find sorted Books', error });
+    res.status(400).json({ message: 'Error getting sorted Books', error });
+  }
+});
+
+// Endpoint to create a new Book instance: Including book name, author and image
+// In the Frontend, we should send in the body: name, author and attached image file
+app.post('/books', parser.single('image'), async (req, res) => {
+  try {
+    const newBook = await new Book({ name: req.body.name, author: req.body.author, imageUrl: req.file.path, dateRead: req.body.dateRead }).save();
+    res.status(200).json({ message: 'Book saved successfully' });
+  } catch (err) {
+    res.status(400).json({ message: 'Could not save New Book to the database', error });
   }
 });
 
